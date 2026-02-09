@@ -9,3 +9,7 @@ node_modules
 **/.astro
 **/playwright-report
 **/test-results
+apps/web/src/registry/tools/generated/*.generated.ts
+apps/web/src/registry/flows/generated/*.generated.ts
+apps/web/src/registry/templates/generated/*.generated.ts
+apps/web/public/sitemap.xml

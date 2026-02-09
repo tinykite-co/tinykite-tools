@@ -1,5 +1,5 @@
-import { readdir, writeFile } from "node:fs/promises";
-import { join, basename } from "node:path";
+import { mkdir, readdir, writeFile } from "node:fs/promises";
+import { basename, dirname, join } from "node:path";
 
 const repoRoot = new URL("..", import.meta.url).pathname;
 const defsDir = join(repoRoot, "apps/web/src/registry/tools/defs");
@@ -17,4 +17,5 @@ const list = files.map((_, index) => `  tool${index}`).join(",\n");
 
 const content = `${imports}\n\nexport const tools = [\n${list}\n];\n\nexport const toolBySlug = new Map(tools.map((tool) => [tool.slug, tool]));\n`;
 
+await mkdir(dirname(outFile), { recursive: true });
 await writeFile(outFile, content, "utf8");

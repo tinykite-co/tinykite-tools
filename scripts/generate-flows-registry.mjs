@@ -1,5 +1,5 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
-import { join, basename } from "node:path";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { basename, dirname, join } from "node:path";
 
 const repoRoot = new URL("..", import.meta.url).pathname;
 const defsDir = join(repoRoot, "apps/web/src/registry/flows/defs");
@@ -46,4 +46,5 @@ const injectedBlock = injectedFlows.length
 
 const content = `${imports}\n\nexport const flows = [\n${imported}${imported && injectedBlock ? "," : ""}${injectedBlock}\n];\n\nexport const flowBySlug = new Map(flows.map((flow) => [flow.slug, flow]));\n`;
 
+await mkdir(dirname(outFile), { recursive: true });
 await writeFile(outFile, content, "utf8");

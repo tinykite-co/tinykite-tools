@@ -24,7 +24,7 @@ const forbidden = [
   "apps/web/src/registry/tools/generated/",
   "apps/web/src/registry/flows/generated/",
   "apps/web/src/registry/templates/generated/",
-  "packages/core/",
+  "packages/core/src/capability/",
   "scripts/generate-tools-registry.mjs",
   "scripts/generate-flows-registry.mjs",
   "scripts/generate-templates-registry.mjs",

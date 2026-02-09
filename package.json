@@ -10,13 +10,20 @@
   "scripts": {
     "generate": "node scripts/generate-tools-registry.mjs && node scripts/generate-flows-registry.mjs && node scripts/generate-templates-registry.mjs && node scripts/generate-sitemap.mjs",
     "lint": "eslint .",
-    "typecheck": "pnpm -r --filter ./packages/** run typecheck && pnpm --filter web run typecheck",
+    "typecheck": "pnpm run generate && pnpm -r --filter ./packages/** run typecheck && pnpm --filter web run typecheck",
     "test": "pnpm -r --filter ./packages/** run test",
     "test:e2e": "pnpm --filter web run test:e2e",
     "build": "pnpm run generate && pnpm --filter web run build",
-    "dev": "pnpm --filter web run dev"
+    "dev": "pnpm run generate && pnpm --filter web run dev",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@changesets/changelog-github": "^0.5.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^9.8.0",

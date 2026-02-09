@@ -1,4 +1,5 @@
 ---
+import ServiceWorkerRegister from "../ui/components/ServiceWorkerRegister.astro";
 import { tools } from "../registry/tools/generated/tools.generated";
 import { flows } from "../registry/flows/generated/flows.generated";
 ---
@@ -6,6 +7,7 @@ import { flows } from "../registry/flows/generated/flows.generated";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <title>Tinykite Tools</title>
   </head>
   <body>
@@ -36,5 +38,6 @@ import { flows } from "../registry/flows/generated/flows.generated";
         </ul>
       </section>
     </main>
+    <ServiceWorkerRegister />
   </body>
 </html>

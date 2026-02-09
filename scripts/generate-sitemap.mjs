@@ -1,5 +1,5 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 
 const repoRoot = new URL("..", import.meta.url).pathname;
 const toolsDir = join(repoRoot, "apps/web/src/registry/tools/defs");
@@ -65,8 +65,9 @@ const urls = [
   ...flowSlugs.map((slug) => `/flows/${slug}`)
 ];
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n${urls
   .map((path) => `  <url><loc>${base}${path}</loc></url>`)
   .join("\n")}\n</urlset>\n`;
 
+await mkdir(dirname(outFile), { recursive: true });
 await writeFile(outFile, xml, "utf8");

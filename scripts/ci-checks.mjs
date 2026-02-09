@@ -48,6 +48,9 @@ async function assertFileSizeLimits() {
   for (const file of files) {
     const content = await readFile(file, "utf8");
     const lines = countLines(content);
+    if (file.includes("/generated/")) {
+      continue;
+    }
     if (file.includes("/packages/") && lines > 200) {
       violations.push(`${file} has ${lines} lines (limit 200).`);
     }

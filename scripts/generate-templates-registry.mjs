@@ -1,5 +1,5 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
-import { join, extname } from "node:path";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, extname, join } from "node:path";
 
 const repoRoot = new URL("..", import.meta.url).pathname;
 const baseDir = join(repoRoot, "apps/web/src/registry/templates/base");
@@ -44,4 +44,5 @@ const content = `export const templates = ${JSON.stringify(
   2
 )} as const;\n`;
 
+await mkdir(dirname(outFile), { recursive: true });
 await writeFile(outFile, content, "utf8");

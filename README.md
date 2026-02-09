@@ -19,6 +19,8 @@ Tool, flow, and template registries are generated from per-tool/flow definition 
 Run:
 - `pnpm generate`
 
+Generated files are not committed. CI/build runs `pnpm generate` automatically.
+
 ## Pro content injection (deploy-time)
 The deploy workflow checks out `tinykite-tools-pro` into `_pro`, then copies:
 - `_pro/pro/templates` -> `apps/web/src/registry/templates/injected`
@@ -37,6 +39,11 @@ The deploy workflow checks out `tinykite-tools-pro` into `_pro`, then copies:
 ## Security notes
 - Secrets are not available to workflows triggered by forked pull requests.
 - Deploy runs only on `main` to avoid secret exposure.
+
+## Releases (Changesets + Semver)
+- Add a changeset: `pnpm changeset`
+- Version packages: `pnpm version-packages`
+- Publish (requires `NPM_TOKEN`): `pnpm release`
 
 ## Feedback page
 - Update `apps/web/src/pages/feedback.astro` with your Google Form ID and entry IDs.
