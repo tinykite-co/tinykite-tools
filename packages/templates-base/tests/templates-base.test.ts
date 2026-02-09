@@ -178,6 +178,42 @@ describe("evaluate", () => {
     expect(report.overallVerdict).toBe("PASS");
     expect(report.results).toHaveLength(0);
   });
+
+  it("does not match prototype keys as top-level fields", () => {
+    const ruleset: Ruleset = {
+      name: "proto-safety",
+      constraints: [
+        {
+          id: "proto-check",
+          field: "toString",
+          message: "Should not resolve from prototype",
+          severity: "FAIL",
+          check: (v) => v === undefined
+        }
+      ]
+    };
+    const report = evaluate(template, ruleset, ctx);
+    expect(report.overallVerdict).toBe("PASS");
+  });
+
+  it("returns FAIL with a message when a constraint throws", () => {
+    const ruleset: Ruleset = {
+      name: "throwing",
+      constraints: [
+        {
+          id: "boom",
+          field: "title",
+          message: "This message is not used",
+          severity: "WARN",
+          check: () => { throw new Error("unexpected"); }
+        }
+      ]
+    };
+    const report = evaluate(template, ruleset, ctx);
+    expect(report.overallVerdict).toBe("FAIL");
+    expect(report.results[0]?.verdict).toBe("FAIL");
+    expect(report.results[0]?.message).toBe('Constraint "boom" threw during evaluation');
+  });
 });
 
 describe("mergeRulesets", () => {

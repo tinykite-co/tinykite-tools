@@ -31,10 +31,14 @@ function resolveOverallVerdict(results: RuleResult[]): RuleVerdict {
 }
 
 function getFieldValue(template: TemplateDefinition, field: string): unknown {
-  if (field in template) {
+  if (Object.hasOwn(template, field)) {
     return template[field as keyof TemplateDefinition];
   }
-  return (template.content as Record<string, unknown>)[field];
+  const content = template.content as Record<string, unknown>;
+  if (Object.hasOwn(content, field)) {
+    return content[field];
+  }
+  return undefined;
 }
 
 function evaluateConstraint(
@@ -43,13 +47,22 @@ function evaluateConstraint(
   context: RuleContext
 ): RuleResult {
   const value = getFieldValue(template, constraint.field);
-  const passed = constraint.check(value, context);
-  return {
-    constraintId: constraint.id,
-    field: constraint.field,
-    verdict: passed ? "PASS" : constraint.severity,
-    message: passed ? "" : constraint.message
-  };
+  try {
+    const passed = constraint.check(value, context);
+    return {
+      constraintId: constraint.id,
+      field: constraint.field,
+      verdict: passed ? "PASS" : constraint.severity,
+      message: passed ? "" : constraint.message
+    };
+  } catch {
+    return {
+      constraintId: constraint.id,
+      field: constraint.field,
+      verdict: "FAIL",
+      message: `Constraint "${constraint.id}" threw during evaluation`
+    };
+  }
 }
 
 export function evaluate(
