@@ -78,7 +78,7 @@ export function mergeRulesets(base: Ruleset, ...overrides: Ruleset[]): Ruleset {
   }
   const merged = [...constraintMap.values()].sort((a, b) => a.id.localeCompare(b.id));
   return {
-    name: overrides.length > 0 ? overrides[overrides.length - 1]!.name : base.name,
+    name: overrides[overrides.length - 1]?.name ?? base.name,
     constraints: merged
   };
 }
