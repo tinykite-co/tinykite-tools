@@ -12,8 +12,9 @@
 import { execSync } from "node:child_process";
 import { readdir, readFile, writeFile, mkdir, rm } from "node:fs/promises";
 import { join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const repoRoot = new URL("..", import.meta.url).pathname;
+const repoRoot = join(fileURLToPath(import.meta.url), "../..");
 const packagesDir = join(repoRoot, "packages");
 const etcDir = join(repoRoot, "etc");
 
@@ -75,7 +76,7 @@ async function main() {
   try {
     execSync("pnpm -r --filter './packages/**' run build", {
       cwd: repoRoot,
-      stdio: "pipe",
+      stdio: "inherit",
     });
   } catch {
     // Individual package builds may fail; tsc still emits declaration files.
