@@ -1,5 +1,7 @@
 export type AssetKind = "file" | "text" | "data";
 
+export type BinaryData = Uint8Array | ArrayBuffer;
+
 export interface Asset {
   id: string;
   kind: AssetKind;
@@ -10,7 +12,7 @@ export interface Asset {
 
 export interface OutputAsset extends Asset {
   fileName: string;
-  data: Uint8Array;
+  data: BinaryData;
 }
 
 export interface ProgressUpdate {
@@ -22,6 +24,13 @@ export interface ProgressEvent {
   jobId: string;
   percent: number;
   message?: string;
+}
+
+export function toProgressEvent(
+  jobId: string,
+  update: ProgressUpdate
+): ProgressEvent {
+  return { jobId, ...update };
 }
 
 export interface JobResult<T = unknown> {

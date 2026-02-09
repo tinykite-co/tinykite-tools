@@ -17,6 +17,7 @@ import {
   createCancellationToken,
   throwIfCancelled
 } from "../src/job";
+import { toProgressEvent } from "../src/asset";
 
 describe("WorkerPool", () => {
   it("acquires and releases workers", () => {
@@ -117,5 +118,12 @@ describe("JobContext and cancellation", () => {
     const ctx = createJobContext("job-2", token, (e) => events.push(e));
     ctx.onProgress({ jobId: "job-2", percent: 50, message: "halfway" });
     expect(events).toHaveLength(1);
+  });
+
+  it("toProgressEvent converts ProgressUpdate to ProgressEvent", () => {
+    const event = toProgressEvent("job-3", { percent: 75, message: "done" });
+    expect(event.jobId).toBe("job-3");
+    expect(event.percent).toBe(75);
+    expect(event.message).toBe("done");
   });
 });
