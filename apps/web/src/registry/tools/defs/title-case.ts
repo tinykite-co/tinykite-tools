@@ -14,7 +14,7 @@ const tool: ToolDefinition = {
       placeholder: "a tale of two cities"
     }
   ],
-  runner: "titleCase",
+  runner: "@tinykite/text:titleCase",
   seo: {
     title: "Title Case",
     description: "Convert text into title case.",

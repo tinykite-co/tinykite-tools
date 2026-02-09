@@ -3,6 +3,7 @@
 /apps/web/src/ui/islands/FlowRunner.tsx @tinykite-co/infra
 /apps/web/src/workers/rpc/ @tinykite-co/infra
 /apps/web/src/ui/motion/ @tinykite-co/infra
+/apps/web/src/lib/capabilities.ts @tinykite-co/infra
 /apps/web/src/registry/tools/generated/ @tinykite-co/infra
 /apps/web/src/registry/flows/generated/ @tinykite-co/infra
 /apps/web/src/registry/templates/generated/ @tinykite-co/infra

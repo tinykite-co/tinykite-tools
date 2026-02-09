@@ -14,11 +14,15 @@ const tool: ToolDefinition = {
       placeholder: "Paste text to count"
     }
   ],
-  runner: "countWords",
+  runner: "@tinykite/text:countWords",
   seo: {
     title: "Word Count",
     description: "Count words, characters, and lines in text.",
     summary: "Count words fast with a minimal, reliable runner."
+  },
+  onboarding: {
+    key: "onboarding:word-count",
+    tips: ["Paste any text to count words instantly.", "Runs entirely in your browser."]
   }
 };
 

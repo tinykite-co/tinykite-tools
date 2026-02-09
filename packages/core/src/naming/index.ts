@@ -6,6 +6,11 @@ export interface ToolSeo {
   summary: string;
 }
 
+export interface ToolOnboarding {
+  key: string;
+  tips: string[];
+}
+
 export interface ToolDefinition {
   slug: string;
   title: string;
@@ -14,6 +19,7 @@ export interface ToolDefinition {
   params: FieldSchema[];
   runner: string;
   seo: ToolSeo;
+  onboarding?: ToolOnboarding;
 }
 
 export interface FlowSeo {

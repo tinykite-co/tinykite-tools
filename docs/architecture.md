@@ -5,6 +5,7 @@
 - `apps/web` is an Astro static site with React islands for interactive runners.
 - `packages/*` contain shared, DOM-free logic (enforced by ESLint).
 - Pro content is injected at deploy time and merged with base registries.
+- `packages/text` provides the sample text tools used by the UI runners.
 
 ## Registries
 - Tool definitions live in `apps/web/src/registry/tools/defs`.
@@ -16,6 +17,7 @@
 - Worker RPC utilities live in `apps/web/src/workers/rpc`.
 - Task handlers live in `apps/web/src/workers/tasks`.
 - Worker entries live in `apps/web/src/workers/entry`.
+- Runner resolution and execution helpers live in `apps/web/src/lib`.
 
 ## Testing
 - Unit tests: `vitest` in packages.

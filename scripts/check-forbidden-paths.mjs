@@ -21,6 +21,7 @@ const forbidden = [
   "apps/web/src/ui/islands/FlowRunner.tsx",
   "apps/web/src/workers/rpc/",
   "apps/web/src/ui/motion/",
+  "apps/web/src/lib/capabilities.ts",
   "apps/web/src/registry/tools/generated/",
   "apps/web/src/registry/flows/generated/",
   "apps/web/src/registry/templates/generated/",

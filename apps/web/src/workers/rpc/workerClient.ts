@@ -1,6 +1,6 @@
 export interface WorkerRequest<T = unknown> {
   id: string;
-  type: string;
+  type?: string;
   payload: T;
 }
 

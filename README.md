@@ -47,3 +47,6 @@ The deploy workflow checks out `tinykite-tools-pro` into `_pro`, then copies:
 
 ## Feedback page
 - Update `apps/web/src/pages/feedback.astro` with your Google Form ID and entry IDs.
+
+## Offline support
+- Service worker lives at `apps/web/public/sw.js` and caches core assets after first load.

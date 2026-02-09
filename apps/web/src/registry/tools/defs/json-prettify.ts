@@ -14,7 +14,7 @@ const tool: ToolDefinition = {
       placeholder: "{\"hello\": \"world\"}"
     }
   ],
-  runner: "prettifyJson",
+  runner: "@tinykite/text:prettifyJson",
   seo: {
     title: "JSON Prettify",
     description: "Format JSON with readable indentation.",

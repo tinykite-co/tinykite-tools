@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/react": "^3.6.0",
     "@tinykite/core": "0.1.0",
+    "@tinykite/text": "0.1.0",
     "@tinykite/templates-base": "0.1.0",
     "@tinykite/ui-schema": "0.1.0",
     "astro": "^5.2.5",

@@ -2,16 +2,32 @@ import type { WorkerRequest, WorkerResponse } from "./workerClient";
 
 export type WorkerHandler<TInput = unknown, TOutput = unknown> = (
   payload: TInput
-) => Promise<TOutput>;
+) => Promise<TOutput> | TOutput;
+
+export type WorkerRouter = Record<string, WorkerHandler>;
 
 export function registerHandler<TInput, TOutput>(
   handler: WorkerHandler<TInput, TOutput>
 ) {
-  self.onmessage = async (event: MessageEvent<WorkerRequest<TInput>>) => {
-    const { id, payload } = event.data;
+  registerRouter({ default: handler }, true);
+}
+
+export function registerRouter(handlers: WorkerRouter, allowDefault = false) {
+  self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
+    const { id, payload, type } = event.data;
+    const handler = handlers[type ?? ""] ?? (allowDefault ? handlers.default : undefined);
+    if (!handler) {
+      const response: WorkerResponse = {
+        id,
+        status: "error",
+        error: `No handler for ${type ?? ""}`
+      };
+      self.postMessage(response);
+      return;
+    }
     try {
       const result = await handler(payload);
-      const response: WorkerResponse<TOutput> = { id, status: "done", payload: result };
+      const response: WorkerResponse = { id, status: "done", payload: result };
       self.postMessage(response);
     } catch (error) {
       const response: WorkerResponse = {
