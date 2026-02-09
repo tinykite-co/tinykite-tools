@@ -129,4 +129,21 @@ describe("validateSchema", () => {
     expect(typeof result.valid).toBe("boolean");
     expect(Array.isArray(result.errors)).toBe(true);
   });
+
+  it("returns deterministic ValidationResult shape on failure", () => {
+    const result: ValidationResult = validateSchema(schema, { name: "" });
+    expect(typeof result.valid).toBe("boolean");
+    expect(result.valid).toBe(false);
+    expect(Array.isArray(result.errors)).toBe(true);
+    expect(result.errors.length).toBeGreaterThan(0);
+    for (const err of result.errors) {
+      expect(typeof err.fieldId).toBe("string");
+      expect(typeof err.message).toBe("string");
+    }
+  });
+
+  it("treats whitespace-only values as empty for optional number fields", () => {
+    const result = validateSchema(schema, { name: "ok", count: "   ", format: "" });
+    expect(result.valid).toBe(true);
+  });
 });

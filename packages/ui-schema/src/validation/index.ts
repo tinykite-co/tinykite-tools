@@ -15,7 +15,8 @@ export function validateSchema(
     }
 
     if (field.type === "number" && value && value.trim() !== "") {
-      if (Number.isNaN(Number(value))) {
+      const trimmed = value.trim();
+      if (trimmed === "" || Number.isNaN(Number(trimmed)) || !/^-?\d+(\.\d+)?$/.test(trimmed)) {
         errors.push({
           fieldId: field.id,
           message: `${field.label} must be a number`
