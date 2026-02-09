@@ -1,0 +1,40 @@
+---
+import { tools } from "../registry/tools";
+import { flows } from "../registry/flows";
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tinykite Tools</title>
+  </head>
+  <body>
+    <main>
+      <h1>Tinykite Tools</h1>
+      <p>Fast, reliable utilities built for real workflows.</p>
+
+      <section>
+        <h2>Tools</h2>
+        <ul>
+          {tools.map((tool) => (
+            <li>
+              <a href={`/tools/${tool.slug}`}>{tool.title}</a>
+              <span> — {tool.category}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Flows</h2>
+        <ul>
+          {flows.map((flow) => (
+            <li>
+              <a href={`/flows/${flow.slug}`}>{flow.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

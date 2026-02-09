@@ -1,0 +1,79 @@
+name: "Tool: lib + page + unit + e2e"
+description: "Ship a new tool with library, UI page, unit tests, and E2E coverage."
+title: "Tool: "
+labels: ["tool"]
+body:
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      placeholder: "Word Count"
+    validations:
+      required: true
+  - type: input
+    id: tool_slug
+    attributes:
+      label: Tool slug
+      placeholder: "word-count"
+    validations:
+      required: true
+  - type: input
+    id: tool_category
+    attributes:
+      label: Category
+      placeholder: "Text"
+    validations:
+      required: true
+  - type: textarea
+    id: api_signature
+    attributes:
+      label: Library API signature
+      description: "Define the function signature and input/output types."
+      placeholder: "export async function countWords(input: string): Promise<{ words: number }>"
+    validations:
+      required: true
+  - type: checkboxes
+    id: ui_behavior
+    attributes:
+      label: UI behavior checklist
+      options:
+        - label: Schema fields defined
+        - label: Runner wired (no business logic in UI)
+        - label: Error states handled
+        - label: Empty state defined
+  - type: checkboxes
+    id: unit_tests
+    attributes:
+      label: Unit tests checklist
+      options:
+        - label: Core logic unit tests added
+        - label: Edge cases covered
+        - label: Deterministic fixtures used
+  - type: checkboxes
+    id: e2e_tests
+    attributes:
+      label: E2E tests checklist
+      options:
+        - label: Tool page loads
+        - label: Happy path verified
+        - label: Error path verified
+  - type: input
+    id: perf_limits
+    attributes:
+      label: Performance limits
+      placeholder: "Max 10MB input, <2s response"
+  - type: checkboxes
+    id: constraints_ack
+    attributes:
+      label: Constraints acknowledgement
+      options:
+        - label: "I will keep the implementation SOLID/DRY and extremely readable."
+          required: true
+  - type: checkboxes
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      options:
+        - label: Library + page + unit + E2E shipped
+        - label: Registry entry added
+        - label: Docs updated if needed

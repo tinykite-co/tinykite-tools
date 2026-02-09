@@ -1,0 +1,41 @@
+name: "Flow: multi-step + e2e"
+description: "Ship a new flow with steps and end-to-end coverage."
+title: "Flow: "
+labels: ["flow"]
+body:
+  - type: input
+    id: flow_name
+    attributes:
+      label: Flow name
+      placeholder: "Document Cleanup"
+    validations:
+      required: true
+  - type: input
+    id: flow_slug
+    attributes:
+      label: Flow slug
+      placeholder: "document-cleanup"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      placeholder: "1. Upload\n2. Normalize\n3. Export"
+    validations:
+      required: true
+  - type: checkboxes
+    id: e2e_tests
+    attributes:
+      label: E2E tests checklist
+      options:
+        - label: Flow page loads
+        - label: Happy path verified
+        - label: Error path verified
+  - type: checkboxes
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      options:
+        - label: Flow registry entry added
+        - label: E2E tests added

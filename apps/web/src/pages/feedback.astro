@@ -1,0 +1,26 @@
+---
+const FORM_URL = "https://docs.google.com/forms/d/e/FORM_ID/viewform";
+const ISSUE_URL = "https://github.com/tinykite-co/tinykite-tools/issues/new";
+
+const url = new URL(Astro.request.url);
+const tool = url.searchParams.get("tool");
+const version = url.searchParams.get("version");
+const userAgent = url.searchParams.get("ua");
+
+const formUrl = new URL(FORM_URL);
+if (tool) formUrl.searchParams.set("entry.0000000001", tool);
+if (version) formUrl.searchParams.set("entry.0000000002", version);
+if (userAgent) formUrl.searchParams.set("entry.0000000003", userAgent);
+
+if (FORM_URL.includes("FORM_ID")) {
+  const issueUrl = new URL(ISSUE_URL);
+  issueUrl.searchParams.set("title", `Feedback: ${tool ?? "General"}`);
+  issueUrl.searchParams.set(
+    "body",
+    `Tool: ${tool ?? ""}\nVersion: ${version ?? ""}\nUser Agent: ${userAgent ?? ""}\n\nDescribe the issue or idea:`
+  );
+  return Astro.redirect(issueUrl.toString());
+}
+
+return Astro.redirect(formUrl.toString());
+---

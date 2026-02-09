@@ -1,0 +1,29 @@
+---
+import FlowRunner from "../../ui/FlowRunner";
+import { flows } from "../../registry/flows";
+
+export function getStaticPaths() {
+  return flows.map((flow) => ({
+    params: { slug: flow.slug },
+    props: { flow }
+  }));
+}
+
+const { flow } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{flow.title} | Tinykite Tools</title>
+    <meta name="description" content={flow.seo.description} />
+  </head>
+  <body>
+    <main>
+      <a href="/">Back</a>
+      <h1>{flow.title}</h1>
+      <p>{flow.seo.summary}</p>
+      <FlowRunner client:visible flow={flow} />
+    </main>
+  </body>
+</html>

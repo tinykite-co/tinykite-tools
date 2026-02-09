@@ -1,0 +1,29 @@
+---
+import ToolRunner from "../../ui/ToolRunner";
+import { tools } from "../../registry/tools";
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool }
+  }));
+}
+
+const { tool } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tool.title} | Tinykite Tools</title>
+    <meta name="description" content={tool.seo.description} />
+  </head>
+  <body>
+    <main>
+      <a href="/">Back</a>
+      <h1>{tool.title}</h1>
+      <p>{tool.seo.summary}</p>
+      <ToolRunner client:visible tool={tool} />
+    </main>
+  </body>
+</html>
