@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/react": "^3.6.0",
-    "@tinykite/core": "0.1.0",
-    "@tinykite/text": "0.1.0",
-    "@tinykite/templates-base": "0.1.0",
-    "@tinykite/ui-schema": "0.1.0",
+    "@tinykite/core": "workspace:*",
+    "@tinykite/text": "workspace:*",
+    "@tinykite/templates-base": "workspace:*",
+    "@tinykite/ui-schema": "workspace:*",
     "astro": "^5.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

@@ -11,9 +11,20 @@ export interface FieldSchema {
   type: FieldType;
   required?: boolean;
   placeholder?: string;
+  defaultValue?: string;
   options?: FieldOption[];
 }
 
 export interface UiSchema {
   fields: FieldSchema[];
+}
+
+export interface ValidationError {
+  fieldId: string;
+  message: string;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
 }
