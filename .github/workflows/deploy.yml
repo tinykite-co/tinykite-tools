@@ -27,12 +27,12 @@ jobs:
           persist-credentials: false
       - name: Inject pro templates and flows
         run: |
-          mkdir -p apps/web/src/registry/templates-pro apps/web/src/registry/flows-pro
+          mkdir -p apps/web/src/registry/templates/injected apps/web/src/registry/flows/injected
           if [ -d "_pro/pro/templates" ]; then
-            rsync -a --delete _pro/pro/templates/ apps/web/src/registry/templates-pro/
+            rsync -a --delete _pro/pro/templates/ apps/web/src/registry/templates/injected/
           fi
           if [ -d "_pro/pro/flows" ]; then
-            rsync -a --delete _pro/pro/flows/ apps/web/src/registry/flows-pro/
+            rsync -a --delete _pro/pro/flows/ apps/web/src/registry/flows/injected/
           fi
       - uses: pnpm/action-setup@v4
         with:
@@ -42,7 +42,7 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
-      - run: pnpm --filter web build
+      - run: pnpm build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { WorkerPool } from "../src/worker-pool";
+import { WorkerPool } from "../src/worker";
 
 describe("WorkerPool", () => {
   it("acquires and releases workers", () => {

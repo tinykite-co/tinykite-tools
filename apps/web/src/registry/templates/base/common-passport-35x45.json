@@ -1,0 +1,11 @@
+{
+  "id": "base-passport-35x45",
+  "title": "Passport Photo 35x45",
+  "description": "Standard 35x45mm passport photo template.",
+  "tags": ["base", "passport"],
+  "content": {
+    "width": 35,
+    "height": 45,
+    "units": "mm"
+  }
+}

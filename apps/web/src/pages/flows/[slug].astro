@@ -1,6 +1,6 @@
 ---
-import FlowRunner from "../../ui/FlowRunner";
-import { flows } from "../../registry/flows";
+import FlowRunner from "../../ui/islands/FlowRunner";
+import { flows } from "../../registry/flows/generated/flows.generated";
 
 export function getStaticPaths() {
   return flows.map((flow) => ({

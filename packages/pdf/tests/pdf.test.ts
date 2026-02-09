@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { ${pkg}Placeholder } from "../src";
+import { mergePdfPlaceholder } from "../src";
 
-describe("${pkg}", () => {
+describe("pdf", () => {
   it("returns a placeholder message", () => {
-    expect(${pkg}Placeholder()).toContain("placeholder");
+    expect(mergePdfPlaceholder()).toContain("placeholder");
   });
 });

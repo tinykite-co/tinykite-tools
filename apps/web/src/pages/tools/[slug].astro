@@ -1,6 +1,6 @@
 ---
-import ToolRunner from "../../ui/ToolRunner";
-import { tools } from "../../registry/tools";
+import ToolRunner from "../../ui/islands/ToolRunner";
+import { tools } from "../../registry/tools/generated/tools.generated";
 
 export function getStaticPaths() {
   return tools.map((tool) => ({

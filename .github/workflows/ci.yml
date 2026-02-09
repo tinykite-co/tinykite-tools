@@ -21,6 +21,8 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
+      - run: node scripts/check-forbidden-paths.mjs
+      - run: node scripts/ci-checks.mjs
       - run: pnpm lint
 
   typecheck:
@@ -77,6 +79,8 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
-      - run: pnpm --filter web build
+      - run: node scripts/check-forbidden-paths.mjs
+      - run: node scripts/ci-checks.mjs
+      - run: pnpm build
       - run: pnpm --filter web exec playwright install --with-deps
       - run: pnpm --filter web test:e2e

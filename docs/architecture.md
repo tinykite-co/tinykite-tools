@@ -7,12 +7,15 @@
 - Pro content is injected at deploy time and merged with base registries.
 
 ## Registries
-- `apps/web/src/registry/tools.ts` defines tools and build-time paths.
-- `apps/web/src/registry/flows-base.ts` + `apps/web/src/registry/flows-pro/index.ts` merge in `apps/web/src/registry/flows.ts`.
-- `apps/web/src/registry/templates/index.ts` + `apps/web/src/registry/templates-pro/index.ts` merge in `apps/web/src/registry/templates-registry.ts`.
+- Tool definitions live in `apps/web/src/registry/tools/defs`.
+- Flow definitions live in `apps/web/src/registry/flows/defs` and injected flows in `apps/web/src/registry/flows/injected`.
+- Template JSON lives in `apps/web/src/registry/templates/base` and injected templates in `apps/web/src/registry/templates/injected`.
+- Generator scripts emit `apps/web/src/registry/**/generated/*.generated.ts`.
 
 ## Workers
-- Web worker scaffolds live in `apps/web/src/workers` and can be wired to packages later.
+- Worker RPC utilities live in `apps/web/src/workers/rpc`.
+- Task handlers live in `apps/web/src/workers/tasks`.
+- Worker entries live in `apps/web/src/workers/entry`.
 
 ## Testing
 - Unit tests: `vitest` in packages.

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { ${pkg}Placeholder } from "../src";
+import { zipOutputsPlaceholder } from "../src";
 
-describe("${pkg}", () => {
+describe("zip", () => {
   it("returns a placeholder message", () => {
-    expect(${pkg}Placeholder()).toContain("placeholder");
+    expect(zipOutputsPlaceholder()).toContain("placeholder");
   });
 });

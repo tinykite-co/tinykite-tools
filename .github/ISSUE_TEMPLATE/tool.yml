@@ -1,79 +1,371 @@
-name: "Tool: lib + page + unit + e2e"
-description: "Ship a new tool with library, UI page, unit tests, and E2E coverage."
-title: "Tool: "
+name: Tool (lib + page + unit + e2e)
+description: Implement one utility end-to-end: headless TS library + Astro tool page + unit + E2E tests.
+title: "[TOOL] <tool name> (lib + page + tests)"
 labels: ["tool"]
 body:
   - type: input
     id: tool_name
     attributes:
       label: Tool name
-      placeholder: "Word Count"
+      description: Human-friendly name shown in UI and SEO content.
+      placeholder: "Merge PDFs"
     validations:
       required: true
+
   - type: input
-    id: tool_slug
+    id: slug
     attributes:
-      label: Tool slug
-      placeholder: "word-count"
+      label: Slug
+      description: URL slug for the tool page.
+      placeholder: "merge-pdf"
     validations:
       required: true
-  - type: input
-    id: tool_category
+
+  - type: dropdown
+    id: category
     attributes:
       label: Category
-      placeholder: "Text"
+      options:
+        - image
+        - pdf
+        - convert
+        - compress
+        - misc
+        - templates
+      default: 1
     validations:
       required: true
+
   - type: textarea
-    id: api_signature
+    id: responsibility
     attributes:
-      label: Library API signature
-      description: "Define the function signature and input/output types."
-      placeholder: "export async function countWords(input: string): Promise<{ words: number }>"
+      label: One-sentence responsibility statement
+      description: Exactly one responsibility. No tool composition here.
+      placeholder: "This tool does exactly one thing: merge multiple PDF files into one PDF."
     validations:
       required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Public library API
+      description: Package name, exported function signature(s), and options interface. Must be headless and deterministic best-effort.
+      placeholder: |
+        Package: @toolbox/pdf
+
+        export async function mergePdfs(
+          inputs: Asset[],
+          options: { pageRanges?: string[] },
+          ctx?: JobContext
+        ): Promise<OutputAsset>;
+    validations:
+      required: true
+
   - type: checkboxes
+    id: architecture_rules
+    attributes:
+      label: SOLID / DRY / Readability constraints
+      description: These are non-negotiable. PRs fail if violated.
+      options:
+        - label: Library code has no DOM or framework imports (Node-testable, deterministic best-effort).
+          required: true
+        - label: UI does not re-implement business logic (UI only orchestrates, renders, and calls library).
+          required: true
+        - label: Errors extend ToolError and are structured (ValidationError, UnsupportedError, etc.).
+          required: true
+        - label: No shared mutable state or hidden globals; cancellation via AbortSignal where relevant.
+          required: true
+        - label: File size limits respected (library files <= 200 LOC, UI components <= 150 LOC; otherwise refactor).
+          required: true
+        - label: No logic duplication with other tools; shared logic goes into @toolbox/core or shared helpers.
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Parallel-safe change scope (mandatory)
+
+        This repository is structured to allow many tools to be built in parallel.
+        Tool implementations MUST follow the rules below.
+
+  - type: checkboxes
+    id: parallel_scope
+    attributes:
+      label: Parallel-safe change scope
+      description: |
+        These rules ensure multiple tools can be developed in parallel without PR conflicts.
+        Violations will block merge.
+      options:
+        - label: This tool's library code is confined to a single, tool-specific folder under packages/* (no shared tool folders modified).
+          required: true
+        - label: This tool adds exactly one tool definition file under apps/web/src/registry/tools/defs/ and does not modify shared registry files.
+          required: true
+        - label: This tool's E2E tests are confined to a tool-specific spec file under apps/web/tests/e2e/tools/.
+          required: true
+        - label: This tool's test fixtures are confined to a tool-specific folder under apps/web/tests/fixtures/.
+          required: true
+        - label: This PR does not modify shared infrastructure (ToolRunner, worker RPC, capability detection, motion tokens) unless explicitly approved.
+          required: true
+
+  - type: textarea
     id: ui_behavior
     attributes:
-      label: UI behavior checklist
+      label: UI behavior spec
+      description: Inputs, controls with defaults, progress phases, outputs, naming rules, and error states.
+      placeholder: |
+        Inputs:
+        - Allowed: application/pdf
+        - Multiple: yes
+
+        Controls (defaults):
+        - Page ranges per file: empty (all pages)
+        - Output name: merged.pdf
+
+        Progress phases:
+        - Loading PDFs
+        - Processing
+        - Writing output
+
+        Outputs:
+        - application/pdf
+        - Naming: merged.pdf
+
+        Error states:
+        - Invalid range -> ValidationError (show inline)
+        - Encrypted PDF -> EncryptedPdfError (explain next steps)
+    validations:
+      required: true
+
+  - type: textarea
+    id: allowed_changes
+    attributes:
+      label: Allowed file changes
+      description: Explicitly list the folders/files this PR is expected to touch.
+      placeholder: |
+        packages/pdf/src/tools/merge/
+        apps/web/src/registry/tools/defs/merge-pdf.ts
+        apps/web/tests/e2e/tools/merge-pdf.spec.ts
+        apps/web/tests/fixtures/tools/merge-pdf/
+    validations:
+      required: true
+
+  - type: textarea
+    id: forbidden_changes
+    attributes:
+      label: Forbidden file changes
+      description: Explicitly list shared folders/files this PR must NOT modify.
+      placeholder: |
+        apps/web/src/ui/islands/ToolRunner.tsx
+        apps/web/src/workers/*
+        apps/web/src/registry/tools/generated/*
+        scripts/generate-tools-registry.mjs
+        packages/core/*
+    validations:
+      required: true
+
+  - type: dropdown
+    id: onboarding_needed
+    attributes:
+      label: Onboarding requirement
+      description: Only include onboarding if usage is non-obvious.
       options:
-        - label: Schema fields defined
-        - label: Runner wired (no business logic in UI)
-        - label: Error states handled
-        - label: Empty state defined
+        - Not required
+        - Required
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: onboarding_details
+    attributes:
+      label: If onboarding is required, describe it
+      description: Minimal, dismissible inline tips. Stored in localStorage. No walkthroughs for simple tools.
+      placeholder: |
+        Two dismissible hint cards:
+        1) "Drag to reorder"
+        2) "Optional: specify page ranges"
+        Dismiss persists via localStorage key "onboarding:merge-pdf"
+    validations:
+      required: false
+
   - type: checkboxes
+    id: browser_only_privacy
+    attributes:
+      label: Browser-only and privacy requirements
+      options:
+        - label: 100% in-browser processing (no uploads, no server processing).
+          required: true
+        - label: No network calls during processing (E2E must block/verify).
+          required: true
+        - label: Works offline after first load (PWA/static caching in place).
+          required: true
+
+  - type: checkboxes
+    id: capability_detection
+    attributes:
+      label: Capability detection and progressive enhancement
+      description: Tool must choose best available implementation at runtime and fall back safely.
+      options:
+        - label: Uses Worker when available; falls back to main thread with clear warning only if necessary.
+          required: true
+        - label: Detects WebAssembly availability when relevant and selects enhanced path when possible.
+          required: true
+        - label: Detects OffscreenCanvas when relevant and uses it for heavy image work.
+          required: true
+        - label: Adapts defaults using device heuristics (pointer/viewport) and navigator.deviceMemory when available.
+          required: true
+        - label: If ML is used, it is client-side, lazy-loaded, and has a deterministic non-ML fallback.
+          required: true
+
+  - type: textarea
+    id: desktop_mobile_defaults
+    attributes:
+      label: Desktop vs mobile defaults
+      description: Define safe defaults for both. Must be responsive and usable on mobile.
+      placeholder: |
+        Mobile defaults:
+        - Lower preview scale
+        - Smaller batch thumbnail grid
+        - Conservative memory settings
+
+        Desktop defaults:
+        - Higher preview scale
+        - More thumbnails per row
+        - Advanced settings still collapsed but available
+    validations:
+      required: true
+
+  - type: textarea
+    id: processing_mode_label
+    attributes:
+      label: Processing mode label
+      description: Define labels shown in UI for the chosen path (example: Standard vs Enhanced). Keep simple.
+      placeholder: |
+        Standard: "Standard"
+        Enhanced (WASM/Worker/ML): "Enhanced"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: motion_requirements
+    attributes:
+      label: Motion and animations requirements
+      description: Animations must be present, premium, and minimalistic. Respect reduced motion.
+      options:
+        - label: Page enter animation (subtle fade + small translate).
+          required: true
+        - label: Panel transitions (settings expand/collapse) are smoothly animated.
+          required: true
+        - label: Progress updates animate smoothly (bar + phase text cross-fade).
+          required: true
+        - label: Result state has micro-animation (success indicator, subtle failure feedback).
+          required: true
+        - label: Respects prefers-reduced-motion and is verified in E2E.
+          required: true
+
+  - type: textarea
+    id: performance_limits
+    attributes:
+      label: Performance and limits
+      description: Expected max sizes, memory risks, and what the tool will do on constrained devices.
+      placeholder: |
+        Expected max input:
+        - 50MB per PDF (best-effort)
+        - 200 pages (warn if above)
+
+        Constrained device behavior:
+        - Lower preview rendering
+        - Process sequentially
+        - Show warnings before heavy operations
+    validations:
+      required: true
+
+  - type: textarea
     id: unit_tests
     attributes:
-      label: Unit tests checklist
-      options:
-        - label: Core logic unit tests added
-        - label: Edge cases covered
-        - label: Deterministic fixtures used
-  - type: checkboxes
+      label: Unit tests (library) plan
+      description: Must include happy path, invalid input, boundary, determinism best-effort, and error type checks.
+      placeholder: |
+        - Happy path merges two PDFs and page count matches expected
+        - Invalid page range throws ValidationError
+        - Boundary: single input returns identical content (or equivalent)
+        - Determinism best-effort check (stable output metadata strategy documented)
+        - Error types asserted
+    validations:
+      required: true
+
+  - type: textarea
     id: e2e_tests
     attributes:
-      label: E2E tests checklist
-      options:
-        - label: Tool page loads
-        - label: Happy path verified
-        - label: Error path verified
-  - type: input
-    id: perf_limits
+      label: E2E tests (UI) plan
+      description: Must verify responsive behavior and correctness of downloaded output.
+      placeholder: |
+        Desktop (Chromium):
+        - Upload fixtures, run tool, download output, verify page count
+        - Assert progress states transition
+        - Assert no network calls during processing
+        - Feedback link contains tool slug and version
+
+        Mobile (WebKit emulation):
+        - Same core flow works, layout not broken, primary action visible
+        - Reduced defaults used where applicable
+
+        Reduced motion:
+        - prefers-reduced-motion: reduce -> UI still functional, no animated-only hidden UI
+    validations:
+      required: true
+
+  - type: textarea
+    id: seo_content
     attributes:
-      label: Performance limits
-      placeholder: "Max 10MB input, <2s response"
+      label: SEO content
+      description: Minimum required content for the tool page.
+      placeholder: |
+        Title:
+        Meta description:
+        H1:
+        Short intro (2-4 sentences):
+        FAQ (2-3 Q/A):
+    validations:
+      required: true
+
   - type: checkboxes
-    id: constraints_ack
+    id: acceptance
     attributes:
-      label: Constraints acknowledgement
+      label: Acceptance criteria (must all be met)
       options:
-        - label: "I will keep the implementation SOLID/DRY and extremely readable."
+        - label: Unit tests pass (vitest).
           required: true
+        - label: E2E tests pass (Playwright) on desktop and mobile profiles.
+          required: true
+        - label: Reduced motion respected and verified in E2E.
+          required: true
+        - label: Works offline after first load; no network calls during processing.
+          required: true
+        - label: Uses standard icon set; no emojis anywhere.
+          required: true
+        - label: Fully responsive; mobile UX is usable without drag-only interactions.
+          required: true
+        - label: Code meets readability constraints (SOLID/DRY, file size limits).
+          required: true
+
   - type: checkboxes
-    id: acceptance_criteria
+    id: parallel_acceptance
     attributes:
-      label: Acceptance criteria
+      label: Parallelism acceptance criteria
       options:
-        - label: Library + page + unit + E2E shipped
-        - label: Registry entry added
-        - label: Docs updated if needed
+        - label: PR only adds tool-specific files and does not modify shared registries or runners.
+          required: true
+        - label: No merge conflicts expected with other tool PRs following the same rules.
+          required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: Explicitly list what this tool will not do.
+      placeholder: |
+        - Does not handle encrypted PDFs in v1
+        - Does not upload files to any server
+    validations:
+      required: true

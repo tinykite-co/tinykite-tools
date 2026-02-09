@@ -1,0 +1,13 @@
+# Update the owner handle(s) to your real team(s).
+/apps/web/src/ui/islands/ToolRunner.tsx @tinykite-co/infra
+/apps/web/src/ui/islands/FlowRunner.tsx @tinykite-co/infra
+/apps/web/src/workers/rpc/ @tinykite-co/infra
+/apps/web/src/ui/motion/ @tinykite-co/infra
+/apps/web/src/registry/tools/generated/ @tinykite-co/infra
+/apps/web/src/registry/flows/generated/ @tinykite-co/infra
+/apps/web/src/registry/templates/generated/ @tinykite-co/infra
+/packages/core/src/capability/ @tinykite-co/infra
+/scripts/generate-tools-registry.mjs @tinykite-co/infra
+/scripts/generate-flows-registry.mjs @tinykite-co/infra
+/scripts/generate-templates-registry.mjs @tinykite-co/infra
+/scripts/generate-sitemap.mjs @tinykite-co/infra

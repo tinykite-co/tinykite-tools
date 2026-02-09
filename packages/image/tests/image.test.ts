@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { ${pkg}Placeholder } from "../src";
+import { resizeImagePlaceholder } from "../src";
 
-describe("${pkg}", () => {
+describe("image", () => {
   it("returns a placeholder message", () => {
-    expect(${pkg}Placeholder()).toContain("placeholder");
+    expect(resizeImagePlaceholder({ width: 10, height: 10 })).toContain("placeholder");
   });
 });

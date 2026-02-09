@@ -10,10 +10,19 @@ A monorepo for the public Tinykite tools site. Static output is deployed to GitH
 - `pnpm build`
 - Output: `apps/web/dist`
 
+## Registries and generators
+Tool, flow, and template registries are generated from per-tool/flow definition files.
+- Tools: `apps/web/src/registry/tools/defs/*` -> `apps/web/src/registry/tools/generated/tools.generated.ts`
+- Flows: `apps/web/src/registry/flows/defs/*` + `apps/web/src/registry/flows/injected/*` -> `apps/web/src/registry/flows/generated/flows.generated.ts`
+- Templates: `apps/web/src/registry/templates/base/*.json` + `apps/web/src/registry/templates/injected/*.json` -> `apps/web/src/registry/templates/generated/templates.generated.ts`
+
+Run:
+- `pnpm generate`
+
 ## Pro content injection (deploy-time)
 The deploy workflow checks out `tinykite-tools-pro` into `_pro`, then copies:
-- `_pro/pro/templates` -> `apps/web/src/registry/templates-pro`
-- `_pro/pro/flows` -> `apps/web/src/registry/flows-pro`
+- `_pro/pro/templates` -> `apps/web/src/registry/templates/injected`
+- `_pro/pro/flows` -> `apps/web/src/registry/flows/injected`
 
 ### Setup
 1. Create a fine-grained PAT with **read** access to `tinykite-tools-pro`.

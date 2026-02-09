@@ -33,7 +33,7 @@ export default [
     },
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": "warn",
-      "max-lines": ["warn", { "max": 400, "skipBlankLines": true, "skipComments": true }]
+      "max-lines": ["error", { "max": 400, "skipBlankLines": true, "skipComments": true }]
     }
   },
   {
