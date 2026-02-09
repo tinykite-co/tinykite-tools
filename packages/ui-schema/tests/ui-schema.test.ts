@@ -56,6 +56,12 @@ describe("applyDefaults", () => {
     const result = applyDefaults(schema, {});
     expect(Object.keys(result).sort()).toEqual(["count", "name", "sep"]);
   });
+
+  it("preserves unknown keys not in schema", () => {
+    const result = applyDefaults(schema, { name: "test", extra: "hidden" });
+    expect(result.extra).toBe("hidden");
+    expect(result.name).toBe("test");
+  });
 });
 
 describe("validateSchema", () => {
@@ -101,6 +107,12 @@ describe("validateSchema", () => {
       fieldId: "count",
       message: "Count must be a number"
     });
+  });
+
+  it("accepts scientific notation and leading-dot numbers", () => {
+    expect(validateSchema(schema, { name: "ok", count: "1e3", format: "" }).valid).toBe(true);
+    expect(validateSchema(schema, { name: "ok", count: ".5", format: "" }).valid).toBe(true);
+    expect(validateSchema(schema, { name: "ok", count: "+1", format: "" }).valid).toBe(true);
   });
 
   it("returns error for invalid select option", () => {

@@ -4,7 +4,7 @@ export function applyDefaults(
   schema: UiSchema,
   values: Record<string, string> = {}
 ): Record<string, string> {
-  const result: Record<string, string> = {};
+  const result: Record<string, string> = { ...values };
   for (const field of schema.fields) {
     const provided = values[field.id];
     if (provided !== undefined) {
