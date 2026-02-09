@@ -11,10 +11,10 @@
 
 import { execSync } from "node:child_process";
 import { readdir, readFile, writeFile, mkdir, rm } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const repoRoot = join(fileURLToPath(import.meta.url), "../..");
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = join(repoRoot, "packages");
 const etcDir = join(repoRoot, "etc");
 
