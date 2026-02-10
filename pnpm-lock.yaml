@@ -44,6 +44,12 @@ importers:
       '@tinykite/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@tinykite/image':
+        specifier: workspace:*
+        version: link:../../packages/image
+      '@tinykite/pdf':
+        specifier: workspace:*
+        version: link:../../packages/pdf
       '@tinykite/templates-base':
         specifier: workspace:*
         version: link:../../packages/templates-base
@@ -53,6 +59,9 @@ importers:
       '@tinykite/ui-schema':
         specifier: workspace:*
         version: link:../../packages/ui-schema
+      '@tinykite/zip':
+        specifier: workspace:*
+        version: link:../../packages/zip
       astro:
         specifier: ^5.2.5
         version: 5.17.1(@types/node@25.2.2)(jiti@2.6.1)(rollup@4.57.1)(typescript@5.9.3)
