@@ -1,5 +1,5 @@
 {
-  "name": "@tinykite/$pkg",
+  "name": "@tinykite/image",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
